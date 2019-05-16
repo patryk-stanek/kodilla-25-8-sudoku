@@ -9,3 +9,24 @@
     font-family: 'Lato', sans-serif;
     font-weight: 300;
 }
+
+body {
+    background-image: linear-gradient(to bottom right, #f2dad8, #e6bec3);
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Main {
+    border: 1px solid #a6878b;
+    border-radius: 2px;
+    background-color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.Main h1 {
+    text-transform: uppercase;
+}
