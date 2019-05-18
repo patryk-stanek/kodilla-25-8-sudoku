@@ -20,3 +20,15 @@
     text-align: center;
     font-size: 20px;
 }
+
+.Disabled,
+.Disabled::-webkit-inner-spin-button,
+.Disabled::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    background-color: rgba(255,0,0,.3);
+}
+
+.Enabled {
+    background-color: rgba(0,255,0,.3);
+}

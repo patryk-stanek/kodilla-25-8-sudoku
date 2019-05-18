@@ -25,6 +25,7 @@ class App extends React.Component {
     }
 
     sudoku(){
+        this.setState({board: []});
         const x = sudoku.generate('easy');
         const y = x.split('');
         this.setState({board: y});

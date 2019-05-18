@@ -1,20 +1,11 @@
 import React from 'react';
+import style from './Board.css';
 
 class Tile extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            value: ''
-        };
-        this.handleChange = this.handleChange.bind(this);
-    }
 
-    componentWillMount() {
-        let num = this.props.value;
-        if (num == '.') {
-            num = '0';
-        }
-        this.setState({value: num});
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
@@ -24,14 +15,16 @@ class Tile extends React.Component {
     }
 
     render() {
+        let num = this.props.value;
         return (
             <div>
                 <input
                     type='number'
-                    min='0'
+                    min='1'
                     max='9'
-                    value={this.state.value}
-                    onChange={this.handleChange}
+                    value={num === '.' ? '' : num}
+                    onChange={this.props.action}
+                    className={num === '.' ? style.Enabled : style.Disabled}
                 />
             </div>
         )
