@@ -7,8 +7,7 @@ class Board extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            board: this.props.data,
-            data: this.props.data2
+            board: this.props.data
         }
 
         this.numbers = this.numbers.bind(this);

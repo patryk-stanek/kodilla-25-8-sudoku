@@ -20,12 +20,14 @@ class App extends React.Component {
         this.solve = this.solve.bind(this);
         this.reset = this.reset.bind(this);
         this.check = this.check.bind(this);
+
+        this.console = this.console.bind(this);
     }
 
     componentWillMount() {
         const init = sudoku.generate('easy');
         const array = init.split('');
-        this.setState({board: array, ini: array});
+        this.setState({board: array, initialBoard: array});
     }
 
     newGame() {
@@ -36,21 +38,33 @@ class App extends React.Component {
     }
 
     reset() {
+        // this.setState({board: []});
         this.setState({board: this.state.initialBoard});
     }
 
     solve() {
+        // this.setState({board: []});
         const init = sudoku.solve(this.state.initialBoard);
         const array = init.split('');
-        this.setState({board: array})
+        this.setState({board: array});
     }
 
     check() {
         const init = sudoku.solve(this.state.initialBoard);
         const compare = this.state.board;
         const convert = compare.join('');
+        this.console();
 
         init == convert ? this.setState({game: 'Win'}) : this.setState({game: 'Lose'});
+    }
+
+    console() {
+        console.log(
+            this.state.board
+        )
+        console.log(
+            this.state.initialBoard
+        )
     }
     
     render() {
@@ -64,6 +78,7 @@ class App extends React.Component {
                 <button onClick={this.check}>Check</button>
                 <h2>{this.state.game}</h2>
                 <Numbers />
+                <button onClick={this.console}>console</button>
                 <Controls />
             </div>
         )

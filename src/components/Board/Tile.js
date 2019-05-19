@@ -4,7 +4,7 @@ import style from './Board.css';
 class Tile extends React.Component {
 
     render() {
-        let num = this.props.value;
+        const num = this.props.value;
         return (
             <div>
                 <input
