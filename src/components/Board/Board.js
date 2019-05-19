@@ -7,16 +7,27 @@ class Board extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            board: '',
+            board: this.props.data,
+            data: this.props.data2
         }
 
         this.numbers = this.numbers.bind(this);
     }
 
     numbers(val) {
+        const value = val.target.value;
+        const id = val.target.id;
+
+        //maxlength w inpucie nie działa i bez poniższych trzech linijek można wpisywać w pole więcej niż jedną cyfrę czego na obecnym etapie chciałbym uniknąć
+        const max = 10;
+        const maxLength = max.toString().length-1;
+        const newVal = value < max ? value : parseInt(value.toString().substring(0, maxLength));
+        console.log(newVal);
+
         this.setState(state => {
             let board = state.board;
-            board = val;
+            board[id] = newVal;
+            // board[id] = value;
             return {board};
         });
     }
@@ -27,8 +38,8 @@ class Board extends React.Component {
                 <p className={style.Main}>Board loaded!</p>
                 <div className={style.Board}>
                     {
-                        this.props.data.map((item) =>
-                            <Tile value={item} action={this.numbers}/>
+                        this.props.data.map((item, index) =>
+                            <Tile value={item} action={this.numbers} id={index}/>
                         )
                     }
                 </div>

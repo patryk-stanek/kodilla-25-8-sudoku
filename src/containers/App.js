@@ -25,14 +25,14 @@ class App extends React.Component {
     componentWillMount() {
         const init = sudoku.generate('easy');
         const array = init.split('');
-        this.setState({initialBoard: array, board: array});
+        this.setState({board: array, ini: array});
     }
 
     newGame() {
-        this.setState({board: []});
         const init = sudoku.generate('easy');
         const array = init.split('');
-        this.setState({board: array, initialBoard: array});
+        const text = '';
+        this.setState({board: array, initialBoard: array, game: text});
     }
 
     reset() {
@@ -40,13 +40,13 @@ class App extends React.Component {
     }
 
     solve() {
-        const init = sudoku.solve(this.state.board);
+        const init = sudoku.solve(this.state.initialBoard);
         const array = init.split('');
         this.setState({board: array})
     }
 
     check() {
-        let init = sudoku.solve(this.state.initialBoard);
+        const init = sudoku.solve(this.state.initialBoard);
         const compare = this.state.board;
         const convert = compare.join('');
 
