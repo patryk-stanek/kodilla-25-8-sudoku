@@ -5,83 +5,106 @@ import sudoku from 'sudoku-umd';
 import style from './App.css';
 
 import Board from '../components/Board/Board.js';
-import Controls from '../components/Controls/Controls.js';
 import Numbers from '../components/Numbers/Numbers.js';
 
 class App extends React.Component {
     constructor(props) {
-        super(props);
-        this.state = {
-            initialBoard: [],
-            board: [],
-            game: ''
-        }
-        this.newGame = this.newGame.bind(this);
-        this.solve = this.solve.bind(this);
-        this.reset = this.reset.bind(this);
-        this.check = this.check.bind(this);
+      super(props);
 
-        this.console = this.console.bind(this);
+      this.state = {
+          board: [],
+          game: '',
+          difficulty: ''
+      }
+
+      this.solvedGame = [];
+      this.initialBoard = [];
+
+      this.updateBoard = this.updateBoard.bind(this);
+      this.newGame = this.newGame.bind(this);
+      this.solve = this.solve.bind(this);
+      this.reset = this.reset.bind(this);
+      this.check = this.check.bind(this);
+
+      this.handleChange = this.handleChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount() {
-        const init = sudoku.generate('easy');
-        const array = init.split('');
-        this.setState({board: array, initialBoard: array});
+    componentDidMount() {
+      this.newGame('easy');
     }
 
-    newGame() {
-        const init = sudoku.generate('easy');
-        const array = init.split('');
-        const text = '';
-        this.setState({board: array, initialBoard: array, game: text});
-    }
+    newGame(difficulty) {
+      const initialGameSetup = sudoku.generate(difficulty);
+      const gameArray = initialGameSetup.split('');
 
-    reset() {
-        // this.setState({board: []});
-        this.setState({board: this.state.initialBoard});
+      this.setState({ board: gameArray, game: '', difficulty: difficulty });
+
+      this.solvedGame = sudoku.solve(initialGameSetup);
+      this.initialBoard = initialGameSetup;
     }
 
     solve() {
-        // this.setState({board: []});
-        const init = sudoku.solve(this.state.initialBoard);
-        const array = init.split('');
-        this.setState({board: array});
+      const newFinishedGame = this.solvedGame.split('');
+
+      this.setState({board: newFinishedGame});
+    }
+
+    updateBoard(id, newVal) {
+      const updatedBoard = this.state.board;
+
+      updatedBoard[id] = newVal;
+
+      this.setState({
+        board: updatedBoard
+      });
+    }
+
+    reset() {
+      const initialBoard = this.initialBoard.split('');
+
+      this.setState({board: initialBoard});
     }
 
     check() {
-        const init = sudoku.solve(this.state.initialBoard);
-        const compare = this.state.board;
-        const convert = compare.join('');
-        this.console();
+      const presentGame = this.state.board;
+      const convertGame = presentGame.join('');
 
-        init == convert ? this.setState({game: 'Win'}) : this.setState({game: 'Lose'});
+      this.solvedGame == convertGame ? this.setState({game: 'Win'}) : this.setState({game: 'Lose'});
     }
 
-    console() {
-        console.log(
-            this.state.board
-        )
-        console.log(
-            this.state.initialBoard
-        )
+    handleSubmit(event) {
+      event.preventDefault();
+      this.newGame(this.state.difficulty);
     }
-    
+
+    handleChange(event) {
+      this.setState({difficulty: event.target.value});
+    }
+
     render() {
-        return (
-            <div className={style.Main}>
-                <button onClick={this.newGame}>New Game</button>
-                <h1>Sudoku</h1>
-                <Board data={this.state.board}/>
-                <button onClick={this.solve}>Solve</button>
-                <button onClick={this.reset}>Reset</button>
-                <button onClick={this.check}>Check</button>
-                <h2>{this.state.game}</h2>
-                <Numbers />
-                <button onClick={this.console}>console</button>
-                <Controls />
-            </div>
-        )
+      return (
+        <div className={style.Main}>
+          <form onSubmit={this.handleSubmit}>
+            <select value={this.state.difficulty} onChange={this.handleChange}>
+              <option value='easy'>Easy</option>
+              <option value='medium'>Medium</option>
+              <option value='hard'>Hard</option>
+            </select>
+            <input type='submit' value='Start New Game'/>
+          </form>
+
+          {this.state.board && (
+            <Board data={this.state.board} onBoardUpdate={this.updateBoard}/>
+          )}
+          <button onClick={this.solve}>Solve</button>
+          <button onClick={this.reset}>Reset</button>
+          <button onClick={this.check}>Check</button>
+          <h2>{this.state.game}</h2>
+          <br/>
+          <Numbers />
+        </div>
+      )
     }
 }
 

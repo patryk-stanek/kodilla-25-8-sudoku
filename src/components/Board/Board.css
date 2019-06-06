@@ -21,6 +21,10 @@
     font-size: 20px;
 }
 
+.Board div input:focus {
+    background-color: rgba(0,0,255,.3);
+}
+
 .Disabled,
 .Disabled::-webkit-inner-spin-button,
 .Disabled::-webkit-outer-spin-button {
