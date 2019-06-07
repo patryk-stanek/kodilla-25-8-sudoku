@@ -30,3 +30,7 @@ body {
 .Main h1 {
     text-transform: uppercase;
 }
+
+button {
+    margin: 0 5px;
+}
